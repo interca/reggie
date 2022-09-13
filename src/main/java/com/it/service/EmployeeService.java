@@ -9,4 +9,5 @@ import com.it.entity.Employee;
  * @since 2022-9-14
  */
 public interface EmployeeService extends IService<Employee> {
+    Employee getOne(String name);
 }

@@ -1,5 +1,6 @@
 package com.it.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.it.entity.Employee;
 import com.it.mapper.EmployeeMapper;
@@ -17,4 +18,13 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>im
 
     @Autowired
     private EmployeeMapper employeeMapper;
+
+
+    @Override
+    public Employee getOne(String name) {
+        LambdaQueryWrapper<Employee>lq=new LambdaQueryWrapper<>();
+        lq.eq(Employee::getUsername,name);
+        Employee employee = employeeMapper.selectOne(lq);
+        return employee;
+    }
 }

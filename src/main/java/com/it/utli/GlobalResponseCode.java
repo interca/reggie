@@ -1,5 +1,6 @@
 package com.it.utli;
 
+import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -11,7 +12,7 @@ import lombok.Getter;
 @Getter
 public enum GlobalResponseCode {
 
-    OPERATE_SUCCESS(200,"操作成功"),
+    OPERATE_SUCCESS(1,"操作成功"),
 
     OPERATE_FAIL(999,"操作失败"),
 
