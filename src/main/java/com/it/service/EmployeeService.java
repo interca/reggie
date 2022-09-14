@@ -15,4 +15,6 @@ public interface EmployeeService extends IService<Employee> {
     boolean save(Employee employee);
 
     SystemJsonResponse get(int page, int pageSize, String name);
+
+    boolean update(Employee employee);
 }

@@ -85,8 +85,22 @@ public class EmployeeController {
      */
     @GetMapping("/page")
     public SystemJsonResponse getEmployee(int page,int pageSize,String name){
-        System.out.println(page+" "+pageSize+" "+name);
         SystemJsonResponse systemJsonResponse = employeeService.get(page, pageSize, name);
         return systemJsonResponse;
+    }
+
+    /**
+     * 更新后台员工权限
+     * @param employee
+     * @return
+     */
+    @PutMapping
+    public SystemJsonResponse update(HttpServletRequest request,@RequestBody Employee employee){
+        Employee employee1 = (Employee) request.getSession().getAttribute("employee");
+        employee.setUpdateUser(employee1.getId());
+        System.out.println(employee.getId());
+        boolean a = employeeService.update(employee);
+        System.out.println(a+"sss");
+        return SystemJsonResponse.success();
     }
 }

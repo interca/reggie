@@ -11,6 +11,7 @@ import com.it.utli.SystemJsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -50,10 +51,12 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>im
         //添加排序条件
         lq.orderByDesc(Employee::getUpdateTime);
         Page<Employee> employeePage = employeeMapper.selectPage(pageInfo, lq);
-        List<Employee> records = employeePage.getRecords();
-        for(Employee e:records){
-            System.out.println(e);
-        }
         return  SystemJsonResponse.success(employeePage);
+    }
+
+    @Override
+    public boolean update(Employee employee) {
+         employee.setUpdateTime(LocalDateTime.now());
+         return employeeMapper.updateById(employee)>0;
     }
 }
