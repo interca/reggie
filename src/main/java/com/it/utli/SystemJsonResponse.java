@@ -21,7 +21,7 @@ public class SystemJsonResponse extends LinkedHashMap<String,Object> {
     /**
      * 响应消息
      */
-    private  static  final  String RESULT_MESSAGE="message";
+    private  static  final  String RESULT_MESSAGE="msg";
 
     /**
      * 响应数据

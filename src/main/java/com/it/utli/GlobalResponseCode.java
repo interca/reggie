@@ -14,7 +14,7 @@ public enum GlobalResponseCode {
 
     OPERATE_SUCCESS(1,"操作成功"),
 
-    OPERATE_FAIL(999,"操作失败"),
+    OPERATE_FAIL(0,"操作失败"),
 
     /**
      * 参数问题
