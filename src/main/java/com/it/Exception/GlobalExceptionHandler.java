@@ -33,6 +33,6 @@ public class GlobalExceptionHandler {
             String ms=split[2];
             return SystemJsonResponse.fail(0,ms+"已经存在");
         }
-        return SystemJsonResponse.fail(0,"位置错误");
+        return SystemJsonResponse.fail(0,"未知错误");
     }
 }

@@ -1,14 +1,12 @@
 package com.it.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.it.entity.Employee;
 import com.it.service.EmployeeService;
 import com.it.utli.SystemJsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +72,21 @@ public class EmployeeController {
         Employee employee1 = (Employee) session.getAttribute("employee");
         employee.setCreateUser(employee1.getId());
         employee.setUpdateUser(employee1.getId());
-        boolean save = employeeService.save(employee);
+        employeeService.save(employee);
         return SystemJsonResponse.success(1,"新增成功");
+    }
+
+    /**
+     * 查询分页功能
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
+    @GetMapping("/page")
+    public SystemJsonResponse getEmployee(int page,int pageSize,String name){
+        System.out.println(page+" "+pageSize+" "+name);
+        SystemJsonResponse systemJsonResponse = employeeService.get(page, pageSize, name);
+        return systemJsonResponse;
     }
 }
