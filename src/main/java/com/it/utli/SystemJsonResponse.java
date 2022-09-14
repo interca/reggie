@@ -55,7 +55,12 @@ public class SystemJsonResponse extends LinkedHashMap<String,Object> {
                                      GlobalResponseCode.OPERATE_SUCCESS.getMessage(),
                                       data);
     }
-
+    /**
+     * 自定义成功
+     */
+    public  static  SystemJsonResponse success(int code,String message){
+        return new SystemJsonResponse(code,message);
+    }
     /**
      * 无数据失败操作返回
      */

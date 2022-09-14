@@ -10,4 +10,6 @@ import com.it.entity.Employee;
  */
 public interface EmployeeService extends IService<Employee> {
     Employee getOne(String name);
+
+    boolean save(Employee employee);
 }

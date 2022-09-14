@@ -27,4 +27,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>im
         Employee employee = employeeMapper.selectOne(lq);
         return employee;
     }
+
+    @Override
+    public boolean save(Employee employee) {
+        int insert = employeeMapper.insert(employee);
+        return insert>0;
+    }
 }

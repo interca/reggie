@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 
 /**
  * 接口
@@ -55,5 +57,24 @@ public class EmployeeController {
         //清理session中国保存id
         request.getSession().removeAttribute("employee");
         return SystemJsonResponse.success("退出成功");
+    }
+    /**
+     * 新增后台员工
+     * @param employee
+     * @return
+     */
+    @PostMapping
+    public SystemJsonResponse save(HttpServletRequest request,@RequestBody Employee employee){
+        System.out.println(employee);
+        //初始密码123456
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        HttpSession session = request.getSession();
+        Employee employee1 = (Employee) session.getAttribute("employee");
+        employee.setCreateUser(employee1.getId());
+        employee.setUpdateUser(employee1.getId());
+        boolean save = employeeService.save(employee);
+        return SystemJsonResponse.success(1,"新增成功");
     }
 }
