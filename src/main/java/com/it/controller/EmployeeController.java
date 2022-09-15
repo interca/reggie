@@ -37,9 +37,9 @@ public class EmployeeController {
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         Employee one = employeeService.getOne(employee.getUsername());
         System.out.println(one);
-        if(one==null)return SystemJsonResponse.fail("账户不存在");
+        if(one == null)return SystemJsonResponse.fail("账户不存在");
         if(one.getPassword().equals(password)==false)return SystemJsonResponse.fail("密码错误");
-        if(one.getStatus()==0)return SystemJsonResponse.fail("账户已禁用");
+        if(one.getStatus() == 0)return SystemJsonResponse.fail("账户已禁用");
         //存入session
         request.getSession().setAttribute("employee",one);
         return SystemJsonResponse.success(one);
@@ -102,5 +102,18 @@ public class EmployeeController {
         boolean a = employeeService.update(employee);
         System.out.println(a+"sss");
         return SystemJsonResponse.success();
+    }
+
+    /**
+     * 根据id查询信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public  SystemJsonResponse getById(@PathVariable Long id){
+        Employee byId = employeeService.getById(id);
+        if(byId!=null)
+        return SystemJsonResponse.success(byId);
+        return SystemJsonResponse.fail(0,"没有查询到信息");
     }
 }
