@@ -1,10 +1,10 @@
 package com.it.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.it.entity.Category;
+import com.it.entity.Dish;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.tomcat.websocket.BackgroundProcess;
 
 @Mapper
-public interface CategoryMapper extends BaseMapper<Category> {
-
+public interface DishMapper extends BaseMapper<Dish> {
 }

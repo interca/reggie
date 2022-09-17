@@ -1,10 +1,9 @@
 package com.it.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.it.entity.Category;
+import com.it.entity.Setmeal;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface CategoryMapper extends BaseMapper<Category> {
-
+public interface SetmealMapper extends BaseMapper<Setmeal> {
 }

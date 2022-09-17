@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 
 
 public interface CategoryService {
-     SystemJsonResponse getPage(int page, int pageSize, String name) ;
+    SystemJsonResponse getPage(int page, int pageSize, String name) ;
 
 
     boolean save(Category category);
+
+    public  void remove(Long id);
 }
