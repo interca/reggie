@@ -52,4 +52,15 @@ public class CategoryController {
         return systemJsonResponse;
     }
 
+
+    /**
+     * 删除菜品或者套餐
+     * @param id
+     * @return
+     */
+    @DeleteMapping
+    public  SystemJsonResponse delete(Long id){
+        return null;
+    }
+
 }
