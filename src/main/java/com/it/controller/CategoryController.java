@@ -55,12 +55,13 @@ public class CategoryController {
 
     /**
      * 删除菜品或者套餐
-     * @param id
+     * @param ids
      * @return
      */
     @DeleteMapping
-    public  SystemJsonResponse delete(Long id){
-        return null;
+    public  SystemJsonResponse delete(Long ids){
+        categoryService.remove(ids);
+        return SystemJsonResponse.success();
     }
 
 }

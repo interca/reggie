@@ -3,6 +3,7 @@ package com.it.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.it.Exception.CustomException;
 import com.it.entity.Category;
 import com.it.entity.Dish;
 import com.it.entity.Setmeal;
@@ -56,13 +57,21 @@ public class CategoryServiceImpl implements CategoryService {
          LambdaQueryWrapper<Dish>dishLambdaQueryWrapper=new LambdaQueryWrapper<>();
          dishLambdaQueryWrapper.eq(Dish::getCategoryId,id);
         Integer count1 = dishMapper.selectCount(dishLambdaQueryWrapper);
-        if(count1>0)return;
+       // System.out.println("count1"+count1);
+        if(count1>0){
+           throw  new CustomException("关联了菜品，删除失败");
+        }
 
         LambdaQueryWrapper<Setmeal>LambdaQueryWrapper=new LambdaQueryWrapper<>();
         LambdaQueryWrapper.eq(Setmeal::getCategoryId,id);
         Integer count2 = setmealMapper.selectCount(LambdaQueryWrapper);
-        if(count2>0)return;
-
+       // System.out.println("count2"+count2);
+        if(count2>0){
+            throw  new CustomException("关联了套餐，删除失败");
+        }
+        System.out.println("删除成功");
+        System.out.println(id);
+        categoryMapper.deleteById(id);
     }
 
 

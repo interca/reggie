@@ -35,4 +35,16 @@ public class GlobalExceptionHandler {
         }
         return SystemJsonResponse.fail(0,"未知错误");
     }
+
+    /**
+     * 业务异常处理
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public SystemJsonResponse ex2(CustomException exception){
+        return SystemJsonResponse.fail(0,exception.getMessage());
+    }
+
+
 }
