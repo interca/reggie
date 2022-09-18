@@ -64,4 +64,14 @@ public class CategoryController {
         return SystemJsonResponse.success();
     }
 
+    @PutMapping
+    public SystemJsonResponse update(HttpServletRequest request, @RequestBody Category category){
+        Employee employee = (Employee) request.getSession().getAttribute("employee");
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(employee.getId());
+        categoryService.update(category);
+         return SystemJsonResponse.success();
+    }
+
 }
+
