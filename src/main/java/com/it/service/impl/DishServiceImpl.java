@@ -23,6 +23,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 菜品
+ * @author  hyj
+ * @since  2022-10-2
+ */
 @Service
 public class DishServiceImpl implements DishService {
     @Autowired
@@ -119,4 +124,36 @@ public class DishServiceImpl implements DishService {
         dishDto.setFlavors(dishFlavors);
         return dishDto;
     }
+
+    /**
+     * 更新菜品信息和口味信息
+     * @param dishDto
+     * @param id
+     */
+    @Override
+    @Transactional
+    public void updateWithFlavor(DishDto dishDto, Long id) {
+        //更新dish表
+        dishDto.setUpdateTime(LocalDateTime.now());
+        dishDto.setUpdateUser(id);
+        dishMapper.updateById(dishDto);
+
+        //更新dishFlavor表
+        //先删除口味表对应的数据
+        LambdaQueryWrapper<DishFlavor>lq=new LambdaQueryWrapper<>();
+        lq.eq(DishFlavor::getDishId,dishDto.getId());
+        dishFlavorMapper.delete(lq);
+
+        //再新增口味
+        List<DishFlavor> flavors = dishDto.getFlavors();
+        for(DishFlavor k:flavors){
+            k.setDishId(dishDto.getId());
+            k.setCreateTime(LocalDateTime.now());
+            k.setUpdateTime(LocalDateTime.now());
+            k.setUpdateUser(id);
+            k.setCreateUser(id);
+            dishFlavorMapper.insert(k);
+        }
+    }
 }
+
