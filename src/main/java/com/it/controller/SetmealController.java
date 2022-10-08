@@ -1,10 +1,16 @@
 package com.it.controller;
 
+import com.baomidou.mybatisplus.extension.api.R;
+import com.it.dto.SetmealDto;
+import com.it.entity.Employee;
 import com.it.service.SetmealDishService;
 import com.it.service.SetmealService;
+import com.it.utli.SystemJsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * 套餐管理
@@ -22,4 +28,28 @@ public class SetmealController {
     private SetmealDishService setmealDishService;
 
 
+    /**
+     * 新增套餐接口
+     * @param setmealDto
+     * @return
+     */
+     @PostMapping
+     public SystemJsonResponse save(HttpServletRequest httpServletRequest, @RequestBody SetmealDto setmealDto){
+         Employee employee = (Employee) httpServletRequest.getSession().getAttribute("employee");
+         Long id = employee.getId();
+         setmealService.save(setmealDto,id);
+         return SystemJsonResponse.success();
+     }
+
+    /**
+     * 菜品分页查询
+     * @param page
+     * @param pageSize
+     * @param name
+     * @return
+     */
+     @GetMapping("/page")
+     public  SystemJsonResponse page(int page ,int pageSize,String name){
+          return  setmealService.page(page,pageSize,name);
+     }
 }
