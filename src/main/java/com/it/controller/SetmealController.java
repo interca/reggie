@@ -6,10 +6,12 @@ import com.it.entity.Employee;
 import com.it.service.SetmealDishService;
 import com.it.service.SetmealService;
 import com.it.utli.SystemJsonResponse;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.concurrent.SynchronousQueue;
 
 /**
@@ -51,5 +53,17 @@ public class SetmealController {
      @GetMapping("/page")
      public  SystemJsonResponse page(int page ,int pageSize,String name){
           return  setmealService.page(page,pageSize,name);
+     }
+
+
+    /**
+     * 删除菜品
+     * @param ids
+     * @return
+     */
+     @DeleteMapping
+     public  SystemJsonResponse delete(@RequestParam List<Long>ids){
+          setmealService.removeWithDish(ids);
+          return SystemJsonResponse.success("删除成功");
      }
 }

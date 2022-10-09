@@ -3,6 +3,8 @@ package com.it.service;
 import com.it.dto.SetmealDto;
 import com.it.utli.SystemJsonResponse;
 
+import java.util.List;
+
 /**
  * @author  hyj
  * @since  2022-10-9
@@ -23,4 +25,12 @@ public interface SetmealService {
      * @return
      */
     SystemJsonResponse page(int page, int pageSize, String name);
+
+
+
+    /**
+     * 删除套餐和对于菜品
+     * @param ids
+     */
+    void removeWithDish(List<Long> ids);
 }

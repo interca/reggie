@@ -2,6 +2,7 @@ package com.it.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.it.Exception.CustomException;
 import com.it.dto.SetmealDto;
 import com.it.entity.Category;
 import com.it.entity.Setmeal;
@@ -110,5 +111,34 @@ public class SetmealServiceImpl implements SetmealService {
         }
         setmealDtoPage.setRecords(list);
         return SystemJsonResponse.success(setmealDtoPage);
+    }
+
+
+
+    /**
+     * 删除套餐和他关联的菜品
+     * @param ids
+     */
+    @Override
+    public void removeWithDish(List<Long> ids) {
+        //查询套餐状态 看是否可以删除
+        LambdaQueryWrapper<Setmeal>lq = new LambdaQueryWrapper<>();
+        //in 查询符号ids的套餐
+        lq.in(Setmeal::getId,ids);
+        lq.eq(Setmeal::getStatus,1);
+
+        Integer count = setmealMapper.selectCount(lq);
+        //不能删除  报异常
+        if(count>0){
+            throw  new CustomException("套餐在售卖,不能删除");
+        }
+
+        //符号就删除
+        setmealMapper.deleteBatchIds(ids);
+
+        //删除关系表的数据
+        LambdaQueryWrapper<SetmealDish>lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(SetmealDish::getSetmealId,ids);
+        setmealDishMapper.delete(lambdaQueryWrapper);
     }
 }
