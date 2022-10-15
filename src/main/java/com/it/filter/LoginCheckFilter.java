@@ -57,8 +57,8 @@ public class LoginCheckFilter implements Filter {
             return;
         }
         //请求要处理  手机端
-        User user = (User) request.getSession().getAttribute("user");
-        if(user!=null) {
+        Object id =  request.getSession().getAttribute("user");
+        if(id != null) {
             System.out.println("用户已经登录");
             filterChain.doFilter(request, response);
             return;

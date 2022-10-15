@@ -80,6 +80,8 @@ public class UserController {
                 user.setPhone(phone);
                 userMapper.insert(user);
             }
+            session.setAttribute("user",user.getId());
+            System.out.println(codeInSession+"  "+code);
             return SystemJsonResponse.success(user);
         }
         return SystemJsonResponse.fail(999,"验证码错误");
