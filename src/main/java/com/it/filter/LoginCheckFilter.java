@@ -2,6 +2,7 @@ package com.it.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.it.entity.Employee;
+import com.it.entity.User;
 import com.it.service.EmployeeService;
 import com.it.utli.SystemJsonResponse;
 import org.springframework.stereotype.Component;
@@ -39,17 +40,26 @@ public class LoginCheckFilter implements Filter {
                 "/employee/logout",
                 "/backend/**",
                 "/front/**",
-                "/common/**"
+                "/common/**",
+                "/user/sendMsg",//短信发送
+                "/user/login"//短信登录
         };
         boolean check = check(urs, requestURI);
         if(check==true) {
             filterChain.doFilter(request, response);
             return;
         }
-        //请求要处理
+        //请求要处理  后台
         Employee employee = (Employee) request.getSession().getAttribute("employee");
         if(employee!=null) {
-            System.out.println("已经登录");
+            System.out.println("后台已经登录");
+            filterChain.doFilter(request, response);
+            return;
+        }
+        //请求要处理  手机端
+        User user = (User) request.getSession().getAttribute("user");
+        if(user!=null) {
+            System.out.println("用户已经登录");
             filterChain.doFilter(request, response);
             return;
         }
