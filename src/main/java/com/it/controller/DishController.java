@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -98,4 +100,15 @@ public class DishController {
         return SystemJsonResponse.success(dishes);
     }
 
+    @PostMapping("/status/{status}")
+    public  SystemJsonResponse status(HttpServletRequest request ,@PathVariable Integer status, @RequestParam("ids") String id){
+        Employee employee = (Employee) request.getSession().getAttribute("employee");
+        Dish dish =new Dish();
+        dish.setStatus(status);
+        dish.setId(Long.valueOf(id));
+        dish.setUpdateTime(LocalDateTime.now());
+        dish.setUpdateUser(employee.getId());
+        dishMapper.updateById(dish);
+        return SystemJsonResponse.success("修改成功");
+    }
 }
