@@ -1,8 +1,12 @@
 package com.it.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.it.dto.SetmealDto;
+import com.it.entity.Dish;
 import com.it.entity.Employee;
+import com.it.entity.Setmeal;
+import com.it.mapper.SetmealMapper;
 import com.it.service.SetmealDishService;
 import com.it.service.SetmealService;
 import com.it.utli.SystemJsonResponse;
@@ -28,6 +32,9 @@ public class SetmealController {
 
     @Autowired
     private SetmealDishService setmealDishService;
+
+    @Autowired
+    private SetmealMapper setmealMapper;
 
 
     /**
@@ -66,4 +73,21 @@ public class SetmealController {
           setmealService.removeWithDish(ids);
           return SystemJsonResponse.success("删除成功");
      }
+
+    /**
+     * 获取套餐信息
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public  SystemJsonResponse list(Setmeal setmeal){
+        //条件构造器
+        LambdaQueryWrapper<Setmeal> lq=new LambdaQueryWrapper<>();
+        lq.eq(Setmeal::getCategoryId,setmeal.getCategoryId());
+        lq.eq(Setmeal::getStatus,setmeal.getStatus());
+        //排序条件
+        lq.orderByDesc(Setmeal::getUpdateTime);
+        List<Setmeal> dishes = setmealMapper.selectList(lq);
+        return SystemJsonResponse.success(dishes);
+    }
 }

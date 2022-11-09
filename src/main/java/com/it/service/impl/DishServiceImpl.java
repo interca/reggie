@@ -42,6 +42,7 @@ public class DishServiceImpl implements DishService {
     @Override
     @Transactional
     public void saveWithFlavor(DishDto dishDto,long id) {
+        System.out.println(dishDto.getImage());
         dishDto.setCreateTime(LocalDateTime.now());
         dishDto.setUpdateTime(LocalDateTime.now());
         dishDto.setUpdateUser(id);

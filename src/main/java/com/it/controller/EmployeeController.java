@@ -36,7 +36,7 @@ public class EmployeeController {
         String password = employee.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
         Employee one = employeeService.getOne(employee.getUsername());
-        System.out.println(one);
+        System.out.println(password);
         if(one == null)return SystemJsonResponse.fail("账户不存在");
         if(one.getPassword().equals(password)==false)return SystemJsonResponse.fail("密码错误");
         if(one.getStatus() == 0)return SystemJsonResponse.fail("账户已禁用");

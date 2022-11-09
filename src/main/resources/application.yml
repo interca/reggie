@@ -1,5 +1,5 @@
 server:
- port: 8083
+ port: 8082
 
 spring:
   datasource:
@@ -8,8 +8,7 @@ spring:
       username: root
       password: 13538026482
       driver-class-name: com.mysql.cj.jdbc.Driver
-
-
+      
 mybatis-plus:
   #mybaties xml 加载sql
   mapper-locations: classpath:mapper/*Mapper.xml
