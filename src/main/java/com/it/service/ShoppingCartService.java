@@ -17,4 +17,11 @@ public interface ShoppingCartService {
      * @return
      */
     SystemJsonResponse getList(Long id);
+
+    /**
+     * 减少购物车
+     * @param shoppingCart
+     * @return
+     */
+    SystemJsonResponse sub(ShoppingCart shoppingCart);
 }

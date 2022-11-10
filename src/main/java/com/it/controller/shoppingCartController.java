@@ -1,7 +1,9 @@
 package com.it.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.it.entity.ShoppingCart;
 import com.it.entity.User;
+import com.it.mapper.ShoppingCartMapper;
 import com.it.service.ShoppingCartService;
 import com.it.utli.SystemJsonResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class shoppingCartController {
     private ShoppingCartService shoppingCartService;
 
 
+    @Autowired
+    private ShoppingCartMapper shoppingCartMapper;
 
     /**
      * 返回购物车所有信息
@@ -44,5 +48,33 @@ public class shoppingCartController {
         long id= (long ) request.getSession().getAttribute("user");
         shoppingCart.setUserId(id);
         return shoppingCartService.add(shoppingCart);
+    }
+
+    /**
+     * 清空购物车
+     *
+     * @param request
+     * @return
+     */
+    @DeleteMapping("/clean")
+    public  SystemJsonResponse delete(HttpServletRequest request){
+        long id= (long ) request.getSession().getAttribute("user");
+        LambdaQueryWrapper<ShoppingCart> lq = new LambdaQueryWrapper<>();
+        lq.eq(ShoppingCart::getUserId,id);
+        shoppingCartMapper.delete(lq);
+        return SystemJsonResponse.success();
+    }
+
+    /**
+     * 减少订单
+     * @param shoppingCart
+     * @param request
+     * @return
+     */
+    @PostMapping("/sub")
+    public  SystemJsonResponse sub(@RequestBody ShoppingCart shoppingCart,HttpServletRequest request){
+        long id= (long ) request.getSession().getAttribute("user");
+        shoppingCart.setUserId(id);
+        return shoppingCartService.sub(shoppingCart);
     }
 }

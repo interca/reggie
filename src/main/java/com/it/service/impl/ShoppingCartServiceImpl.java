@@ -66,4 +66,33 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         List<ShoppingCart> shoppingCarts = shoppingCartMapper.selectList(lq);
         return SystemJsonResponse.success(shoppingCarts);
     }
+
+    /**
+     * 减少购物车
+     * @param shoppingCart
+     * @return
+     */
+    @Override
+    public SystemJsonResponse sub(ShoppingCart shoppingCart) {
+        shoppingCart.setCreateTime(LocalDateTime.now());
+        Long dishId = shoppingCart.getDishId();
+        Long setmealId = shoppingCart.getSetmealId();
+        LambdaQueryWrapper<ShoppingCart> lq = new LambdaQueryWrapper<>();
+        lq.eq(ShoppingCart::getUserId,shoppingCart.getUserId());
+        if(dishId != null){
+            lq.eq(ShoppingCart::getDishId,dishId);
+        }else {
+            lq.eq(ShoppingCart::getSetmealId,setmealId);
+        }
+        ShoppingCart cart = shoppingCartMapper.selectOne(lq);
+        if(cart.getNumber() == 1){
+            shoppingCartMapper.delete(lq);
+        }else {
+            cart.setNumber(cart.getNumber() - 1);
+            shoppingCartMapper.update(cart,lq);
+            shoppingCart = cart;
+        }
+        return SystemJsonResponse.success(shoppingCart);
+    }
+
 }
