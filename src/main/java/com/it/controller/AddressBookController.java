@@ -51,13 +51,13 @@ public class AddressBookController {
      */
     @PutMapping("default")
     public SystemJsonResponse setDefault(HttpServletRequest request,@RequestBody AddressBook addressBook) {
-        log.info("addressBook:{}", addressBook);
+        // log.info("addressBook:{}", addressBook);
         LambdaUpdateWrapper<AddressBook> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(AddressBook::getUserId, (Long) request.getSession().getAttribute("user"));
         wrapper.set(AddressBook::getIsDefault, 0);
         //SQL:update address_book set is_default = 0 where user_id = ?
         addressBookService.update(wrapper);
-
+        addressBook.setUpdateUser((Long) request.getSession().getAttribute("user"));
         addressBook.setIsDefault(1);
         //SQL:update address_book set is_default = 1 where id = ?
         addressBook.setUserId((Long) request.getSession().getAttribute("user"));
@@ -82,7 +82,7 @@ public class AddressBookController {
     /**
      * 查询默认地址
      */
-    @GetMapping("default")
+    @GetMapping("/default")
     public SystemJsonResponse getDefault(HttpServletRequest request) {
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AddressBook::getUserId, (Long) request.getSession().getAttribute("user"));

@@ -29,8 +29,9 @@ public class shoppingCartController {
      * @return
      */
     @GetMapping("/list")
-    public SystemJsonResponse getList(){
-          return null;
+    public SystemJsonResponse getList(HttpServletRequest request){
+        long id= (long ) request.getSession().getAttribute("user");
+        return shoppingCartService.getList(id);
     }
 
     /**

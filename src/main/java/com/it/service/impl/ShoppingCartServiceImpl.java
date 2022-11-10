@@ -10,12 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
 
+    /**
+     * 添加购物车
+     * @param shoppingCart
+     * @return
+     */
     @Override
     public SystemJsonResponse add(ShoppingCart shoppingCart) {
         //查询菜品或者套餐是否在数据库 是的话就数量加一
@@ -45,5 +51,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             cart = shoppingCart;
         }
         return SystemJsonResponse.success(cart);
+    }
+
+    /**
+     * 查询全部购物车
+     * @param id
+     * @return
+     */
+    @Override
+    public SystemJsonResponse getList(Long id) {
+        LambdaQueryWrapper<ShoppingCart> lq = new LambdaQueryWrapper<>();
+        lq.eq(ShoppingCart::getUserId,id);
+        lq.orderByAsc(ShoppingCart::getCreateTime);
+        List<ShoppingCart> shoppingCarts = shoppingCartMapper.selectList(lq);
+        return SystemJsonResponse.success(shoppingCarts);
     }
 }
