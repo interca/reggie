@@ -2,7 +2,6 @@ package com.it.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.it.entity.ShoppingCart;
-import com.it.entity.User;
 import com.it.mapper.ShoppingCartMapper;
 import com.it.service.ShoppingCartService;
 import com.it.utli.SystemJsonResponse;
